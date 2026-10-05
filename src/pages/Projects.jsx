@@ -8,13 +8,21 @@ function Projects() {
 
   return (
     <div>
+
       <h2>Projects</h2>
 
       <ul>
+
         {projects.map((project) => (
-          <li key={project}>{project}</li>
+
+          <li key={project}>
+            {project}
+          </li>
+
         ))}
+
       </ul>
+
     </div>
   );
 }
