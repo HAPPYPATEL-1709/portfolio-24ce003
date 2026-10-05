@@ -1,30 +1,95 @@
+import { useState, useEffect } from "react";
+import Spinner from "../components/Spinner";
+import ErrorMessage from "../components/ErrorMessage";
+
 function Projects() {
 
-  const projects = [
-    "Portfolio Website",
-    "Library Management System",
-    "Weather App"
-  ];
+  const [repos, setRepos] = useState([]);
+
+  const [loading, setLoading] = useState(true);
+
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+
+    fetch("https://api.github.com/users/HAPPYPATEL-1709/repos")
+
+      .then((response) => {
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch repositories");
+        }
+
+        return response.json();
+
+      })
+
+      .then((data) => {
+
+        setRepos(data);
+
+      })
+
+      .catch((err) => {
+
+        setError(err.message);
+
+      })
+
+      .finally(() => {
+
+        setLoading(false);
+
+      });
+
+  }, []);
+
+  if (loading) {
+
+    return <Spinner />;
+
+  }
+
+  if (error) {
+
+    return <ErrorMessage message={error} />;
+
+  }
 
   return (
+
     <div>
 
-      <h2>Projects</h2>
+      <h1>GitHub Repositories</h1>
 
-      <ul>
+      {
 
-        {projects.map((project) => (
+        repos.map((repo) => (
 
-          <li key={project}>
-            {project}
-          </li>
+          <div key={repo.id}>
 
-        ))}
+            <h3>{repo.name}</h3>
 
-      </ul>
+            <a
+              href={repo.html_url}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {repo.html_url}
+            </a>
+
+            <hr />
+
+          </div>
+
+        ))
+
+      }
 
     </div>
+
   );
+
 }
 
 export default Projects;
