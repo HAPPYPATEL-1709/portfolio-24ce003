@@ -12,7 +12,7 @@ function Projects() {
 
   useEffect(() => {
 
-    fetch("https://api.github.com/users/HAPPYPATEL-1709/repos")
+    fetch("https://api.github.com/users/facebook/repos")
 
       .then((response) => {
 
